@@ -1,10 +1,25 @@
 """app.py
 
-$ pip install Flask
-$ pip install Flask-RESTful
-$ pip install requests
-$ pip install zeep
+Simple Python site to interact with LAPPS services and service chains.
 
+To get a list of services ordered on the outputs they generate go to the main
+page at http://127.0.0.1:5000/ (if running locally in development mode). You can
+also run a chain of services by using http://127.0.0.1:5000/run_chain, for
+example:
+
+http://127.0.0.1:5000/run_chain?id=stanford-tok-pos-par&data=http://127.0.0.1:5000/get_file?fname=data/example.txt
+
+This runs the stanford-tok-pos-par chain on the file in the data field. The
+available chains are hard coded in the ServiceChains.CHAINS variable in the
+services module.
+
+The site also includes a REST API to get a listing of all known services or just
+an individual service. The first invocation below gets you the information from
+all service in the Brandeis and Vassar service managers, the second gets you the
+information for one service.
+
+$ curl -v http://127.0.0.1:5000/api/services
+$ curl -v http://127.0.0.1:5000/api/services/anc:gate.ner_2.3.0
 
 """
 
@@ -96,15 +111,3 @@ api.add_resource(Service, '/api/services/<string:identifier>')
 if __name__ == '__main__':
 
     app.run(debug=True)
-
-
-"""
-
-pip3 install Flask-RESTful
-
-https://flask-restful.readthedocs.io/en/latest/
-
-$ curl -v http://127.0.0.1:5000/api/services
-$ curl -v http://127.0.0.1:5000/api/services/brandeis_eldrad_grid_1:stanfordnlp.tokenizer_2.0.0
-
-"""

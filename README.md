@@ -17,6 +17,9 @@ $ pip install zeep
 
 All modules installed after the above are listed in `requirements.txt`.
 
+Finally you need user names and passwords for the Brandeis and Vassar servers. Copy the file `config.sample.py` to `config.py` and edit as needed.
+
+
 ## Running the application in development mode
 
 ```bash
@@ -54,4 +57,4 @@ http://127.0.0.1:5000/run_chain?id=stanford-tok-pos-par&data=http://127.0.0.1:50
 
 > <img src="screenshot-chain.png" width="600" />
 
-The text and the views on the gray bar can be clicked to display the text or view.
+The tabs on the gray bar can be clicked to display the text or view.
