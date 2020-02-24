@@ -1,0 +1,31 @@
+.navigation { font-size: 24px; }
+
+.title { border-bottom: medium solid darkgreen; padding-bottom: 5px; font-size: 40px; }
+
+.header { font-size: 18px; color: darkblue }
+
+.text { border: thin solid darkgray; }
+
+.bordered { padding: 8px; border: thin solid darkgray; }
+
+.padded { padding: 8px; }
+
+.bigger { font-size: 22px; }
+
+.gray { color: gray; }
+
+.warn { color: red; }
+
+.example { margin-left: 10px;  padding: 8px; border: thin dotted gray; }
+
+.pre {
+    display: block;
+    unicode-bidi: embed;
+    font-family: monospace;
+    white-space: pre;
+}
+
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:active { text-decoration: none; }

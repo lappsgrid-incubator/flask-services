@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block head %}
+  <title>LAPPS Processing Chain Result</title>
+{{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tabs.css') }}"/>
+  <script type="text/javascript" src="{{ url_for('static', filename= 'js/tabs.js') }}"></script>
+{% endblock %}
+
+
+{% block header %}
+<h1 class="title">LAPPS Processing Chain Result</h1>
+{% endblock %}
+
+
+{% block content %}
+
+<p class="bordered">Input file: <a href='{{ fname }}'>{{ fname }}</a></p>
+  
+{{ builder.chain(chain) }}
+
+{{ builder.result(result) }}
+  
+{% endblock %}

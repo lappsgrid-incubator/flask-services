@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block head %}
+{{ super() }}
+<title>LAPPS Services</title>
+{% endblock %}
+
+
+{% block header %}
+<h1 class="title">LAPPS Services</h1>
+{% endblock %}
+
+
+{% block content %}
+<p>LAPPS services grouped by the annotation types that they produce.</p>
+
+{{ builder.categories(services) }}
+  
+{% endblock %}
