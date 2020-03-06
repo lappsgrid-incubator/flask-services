@@ -22,7 +22,7 @@
     background-color: #6cf; }
 
 /* Style the tab content */
-.tabcontent {
+..tab_c1 .tab_c2 {
     display: none;
     xpadding: 15px;
     xpadding-top: 0px;
@@ -33,7 +33,7 @@
 /* propably move to main.css */
 .result {
     padding: 15px;
-    padding-top: 0px;
+    xpadding-top: 0px;
     border: thin solid darkgrey;
-    border-top: none;
+    xborder-top: none;
 }

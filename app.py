@@ -31,7 +31,7 @@ import requests
 
 from services import LappsServices, ServiceChains
 from builder import HtmlBuilder
-from utils import get_var, get_vars
+from utils import info, debug, get_var, get_vars
 
 
 app = Flask(__name__)
@@ -40,10 +40,6 @@ api = Api(app)
 
 LAPPS_SERVICES = LappsServices()
 LAPPS_SERVICE_CHAINS = ServiceChains(LAPPS_SERVICES)
-
-
-def debug(message):
-    print('DEBUG:', message)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -65,13 +61,14 @@ def get_file():
 def chain():
     """Present the results of running a chain on a file."""
     chain_identifier, url = get_vars(request, ["id", "data"])
-    debug('chain: ' + chain_identifier)
+    info('chain=%s' % chain_identifier)
     chain = LAPPS_SERVICE_CHAINS.get_chain(chain_identifier)
-    debug('Opening ' + url)
+    info('source-url=%s' % url)
     data = requests.get(url).text
     result = chain.run({
         "discriminator": "http://vocab.lappsgrid.org/ns/media/text", 
         "payload": data})
+    info("discriminator=%s" % result.get('discriminator'))
     return render_template("chain.html",
                            chain=chain,
                            fname=url,

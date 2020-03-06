@@ -52,6 +52,7 @@ import operator
 
 import lif_examples
 
+from utils import info, debug
 from config import BRANDEIS_USER, BRANDEIS_PASSWORD
 from config import VASSAR_USER, VASSAR_PASSWORD
 
@@ -87,7 +88,7 @@ class LappsServices(object):
     """
 
     def __init__(self):
-        print("Loading LAPPS services...")
+        info("Loading LAPPS services...")
         brandeis_services = self._load_services(BRANDEIS)
         vassar_services = self._load_services(VASSAR)
         self.services = []
@@ -111,11 +112,11 @@ class LappsServices(object):
         else:
             exit("Unknown server: %s" % server)
         if os.path.exists(local_info):
-            print("Loading local cache with information for services on %s..." % server)
+            info("Loading local cache with information for services on %s..." % server)
             with open(local_info) as fh:
                 services = json.loads(fh.read())
         else:
-            print("Pinging %s service manager for list of services..." % server)
+            info("Pinging %s service manager for list of services..." % server)
             http_response = urllib.request.urlopen(services_url)
             response_code = http_response.getcode()
             services = json.loads(http_response.read())['elements']
@@ -228,7 +229,7 @@ class LappsService(object):
             self.metadata = json.loads(self.metadata_string)
         else:
             self._connect()
-            print("Retrieving metadata from %s" % self.identifier)
+            info("Retrieving metadata from %s" % self.identifier)
             self.metadata_string = self.client.service.getMetadata()
             self._fix_return_type()
             self.metadata = json.loads(self.metadata_string)
@@ -275,9 +276,16 @@ class ServiceChains(object):
         'stanford-tok-pos-par': (
             ('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.tokenizer_2.0.4'),
             ('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.postagger_2.0.4'),
+            ('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.parser_2.0.4')),
+        'stanford-tok-pos-sen-ner-par': (
+            ('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.tokenizer_2.0.4'),
+            ('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.splitter_2.0.4'),
+            ('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.postagger_2.0.4'),
+            #('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.namedentityrecognizer_2.1.1'),
+            ('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.namedentityrecognizer_2.0.4'),
             ('brandeis', 'brandeis_eldrad_grid_1:stanfordnlp.parser_2.0.4'))
     }
-    
+
     def __init__(self, services):
         self.chains = {}
         for chain_id, chain in ServiceChains.CHAINS.items():
@@ -306,9 +314,18 @@ class ServiceChain(object):
 
     def run(self, chain_input):
         """Run all the services in sequence on the JSON input."""
+        # TODO: remove this or keep it as a testing thing driven by a test setting
+        # return {"payload": json.loads(open('data/example.lif').read())}
         json_obj = chain_input
+        step = 0
         for service in self.services:
+            step += 1
+            info("service=%s" % service.identifier)
             json_obj = service.execute(json_obj)
+            info("discriminator=%s" % json_obj.get('discriminator'))
+            # tmp_file = "%02d-%s.lif" % (step, service.identifier.split(':')[-1])
+            # with open(tmp_file, 'w') as fh:
+            #     json.dump(json_obj, fh, indent=4)
         return json_obj
 
     def pp(self):

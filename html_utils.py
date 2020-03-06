@@ -63,8 +63,8 @@ class Text(HtmlObject):
     def __init__(self, text):
         self.text = text
 
-    def write(self, buffer):
-        buffer.write(self.text)
+    def write(self, buffer, indent=''):
+        buffer.write(self.text.strip())
 
 
 class Tag(HtmlObject):
@@ -84,27 +84,35 @@ class Tag(HtmlObject):
 
     def is_block(self):
         block_tags = {'div', 'p', 'blockquote', 'ol', 'ul'}
-        return True if self.tag.lower() in block_tags else False
+        return self.tag.lower() in block_tags
 
     def add(self, dtr):
         """Add a daughter, which is either a Tag or Text instance."""
         self.dtrs.append(dtr)
+        return dtr
 
-    def write(self, buffer):
+    def add_all(self, dtrs):
+        """Add a list of daughters, which are either Tag or Text instances."""
+        self.dtrs.extend(dtrs)
+
+    def write(self, buffer, indent=''):
         attrs = self._attribute_string()
+        if self.is_block():
+               buffer.write("\n")
         if not self.dtrs:
-            buffer.write("<%s%s/>" % (self.tag, attrs))
+            buffer.write("%s<%s%s/>" % (indent, self.tag, attrs))
         else:
-            #if self.is_block():
-            #    buffer.write("\n")
-            buffer.write("<%s%s>" % (self.tag, attrs))
-            if self.is_block():
-                buffer.write("\n")
+            buffer.write("%s<%s%s>" % (indent, self.tag, attrs))
             for dtr in self.dtrs:
-                dtr.write(buffer)
-            buffer.write("</%s>" % self.tag)
-        if self.nl:
-            buffer.write("\n")
+                dtr.write(buffer, indent=indent+'  ')
+            if self.is_block():
+                buffer.write("\n%s</%s>" % (indent, self.tag))
+            else:
+                buffer.write("</%s>" % self.tag)
+        if self.is_block():
+               buffer.write("\n")
+#        if self.nl:
+#            buffer.write("\n")
 
     def _attribute_string(self):
         attrs = ''

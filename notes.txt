@@ -1,0 +1,36 @@
+SUB TABS
+
+When it comes to printing the sub tabs, we should be sensitive that we want to
+group some of them, for example, PhraseStructure and Constituent should be in
+the same tab (maybe just called PhraseStructure).
+
+Same holds for DependencyStructure and Dependency.
+
+And maybe we should also group Token/Token#pos and Sentence so we have the
+one-sentence-per-line and space-separated-tokens visualization.
+
+
+VISUALIZATIONS
+
+Token
+   space-separated
+
+Sentence
+   one-sentence-per-line
+
+Token and Sentence
+   space-separated
+   one-sentence-per-line
+
+NamedEntity
+   text with entities highlighted
+   entity type as superscript after last token
+   highlight every token in an entity individually
+   	     (avoiding crossing tags)
+
+PhraseStructure
+   assumes Constituent
+   print one-sentence-per-line
+   each sentence has icon for visualization
+   clicking icon gives a graphviz or spaCy visualization
+      for that sentence
