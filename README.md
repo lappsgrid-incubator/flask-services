@@ -4,25 +4,24 @@ This code implements a simple Flask web application that allows you to interact 
 
 ## Requirements
 
-Python 3.7 is recommended, but the code will probably run on Python 3.5 or 3.6. To set up an environment for the application do the following (using a path for LappsApp that is appropriate for your setup).
+Python 3.7 is recommended, but the code will probably run on Python 3.5 or 3.6. To make sure you have the right environment for the application do the following (assuming you use pip for package management):
 
 ```bash
-$ python3 -m venv ~/.env/LappsApp
-$ source ~/.env/LappsApp/bin/activate
-$ pip install Flask
-$ pip install Flask-RESTful
-$ pip install requests
-$ pip install zeep
+$ pip3 install Flask
+$ pip3 install Flask-RESTful
+$ pip3 install requests
+$ pip3 install zeep
 ```
 
-All modules installed after the above are listed in `requirements.txt`.
+All modules installed after the above are listed in `code/requirements.txt`.
 
-Finally you need user names and passwords for the Brandeis and Vassar servers. Copy the file `config.sample.py` to `config.py` and edit as needed.
+Finally you need user names and passwords for the Brandeis and Vassar servers. Copy the file `code/config.sample.py` to `code/config.py` and edit as needed.
 
 
 ## Running the application in development mode
 
 ```bash
+$ cd code
 $ export FLASK_ENV=development
 $ python3 app.py
 ```
@@ -55,6 +54,6 @@ Retrieving metadata from anc:gate.splitter_2.2.0
 You can test the application by clicking
 http://127.0.0.1:5000/run_chain?id=stanford-tok-pos-par&data=http://127.0.0.1:5000/get_file?fname=data/example.txt. You should see something like
 
-> <img src="screenshot-chain.png" width="600" />
+> <img src="docs/screenshot-chain.png" width="600" />
 
 The tabs on the gray bar can be clicked to display the text or view.

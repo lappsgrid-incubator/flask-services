@@ -27,6 +27,8 @@ import io
 import json
 from flask import Markup
 
+import visualization
+from utils import dump
 from html_utils import Tag, Text, Href
 
 
@@ -65,7 +67,7 @@ class HtmlBuilder(object):
 
     def result(self, result):
         text = result['payload']['text']['@value']
-        json_str = json.dumps(result['payload'], indent=4)
+        json_str = dump(result['payload'])
         views = result['payload']['views']
         buttons = [tab_button('Text'), tab_button('LIF')]
         contents = [tab_text('Text', text), tab_text('LIF', json_str)]
@@ -134,48 +136,13 @@ def _attrs(_id, _class, style):
 def visualize(identifier, view, text):
     """Given the identifier, determine what kind of visualization to use and return
     the visualization, typically as a text."""
-    # TODO: this should go to its own module
     if identifier.endswith('Token'):
-        return Text(token_visualization(view))
+        return Text(visualization.tab_separated_tokens(view))
     elif identifier.endswith('Token#pos'):
-        return Text(pos_visualization(view))
+        return Text(visualization.tab_separated_tokens_with_pos(view))
     else:
-        return Text(table_visualization(view, text))
+        return Text(visualization.table_of_markables(view, text))
 
-
-def token_visualization(view):
-    s = io.StringIO()
-    for token in view['annotations']:
-        if token['@type'].endswith('Token'):
-            s.write('%s ' % token['features']['word'])
-    return s.getvalue()
-
-
-def pos_visualization(view):
-    s = io.StringIO()
-    for token in view['annotations']:
-        if token['@type'].endswith('Token#pos'):
-            s.write('%s/%s ' % (token['features']['word'],
-                                token['features']['pos']))
-    return s.getvalue()
-
-
-def table_visualization(view, text):
-    table = Tag('table', attrs={'cellpadding': 8})
-    for token in view['annotations']:
-        tr = table.add(Tag('tr'))
-        p1 = token.get('start')
-        p2 = token.get('end')
-        word = text[p1:p2] if (p1 is not None and p2 is not None) else '-'
-        tr.add(Tag('td', dtrs=Text(token['@type'].split('/')[-1])))
-        tr.add(Tag('td', dtrs=Text(str(token.get('start', '-')))))
-        tr.add(Tag('td', dtrs=Text(str(token.get('end', '-')))))
-        tr.add(Tag('td', dtrs=Text(word)))
-    return str(table)
-
-
-def dump(obj):
-    return json.dumps(obj, indent=4)
 
         
 class Identifier(object):

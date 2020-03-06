@@ -1,9 +1,16 @@
+import json
+
+
 def info(message):
     print('INFO:', message)
 
 
 def debug(message):
     print('DEBUG:', message)
+
+
+def dump(obj):
+    return json.dumps(obj, indent=4)
 
 
 def get_vars(request, var_names):
