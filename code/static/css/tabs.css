@@ -13,6 +13,16 @@
     font-size: 16px;
     padding: 15px; padding-top: 8px; padding-bottom: 8px; }
 
+/* Style the sub buttons that are used to open the tab content */
+.tab2 button {
+    background-color: inherit;
+    border: thin solid gray;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px; padding-top: 5px; padding-bottom: 5px; }
+
 /* Change background color of buttons on hover */
 .tab button:hover {
     background-color: #ccc; }
@@ -21,19 +31,17 @@
 .tab button.active {
     background-color: #6cf; }
 
+/* and one for the sub buttons */
+.tab2 button.active {
+    background-color: #6cf; }
+
 /* Style the tab content */
 ..tab_c1 .tab_c2 {
     display: none;
-    xpadding: 15px;
-    xpadding-top: 0px;
-    xborder: thin solid darkgrey;
-    xborder-top: none;
 }
 
 /* propably move to main.css */
 .result {
-    padding: 15px;
-    xpadding-top: 0px;
+    padding: 8px;
     border: thin solid darkgrey;
-    xborder-top: none;
 }

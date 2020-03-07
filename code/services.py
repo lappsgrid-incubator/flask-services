@@ -57,6 +57,14 @@ from config import BRANDEIS_USER, BRANDEIS_PASSWORD
 from config import VASSAR_USER, VASSAR_PASSWORD
 
 
+# set to True if yu want to save the output of each step in a chain
+SAVE_STEPS = False
+
+# set to True in order to use the output example as the output of the LAPPS
+# processing, useful while debugging when you have no internet connection
+BYPASS_CHAIN_PROCEESING = False
+
+
 BRANDEIS = 'brandeis'
 VASSAR = 'vassar'
 
@@ -314,8 +322,9 @@ class ServiceChain(object):
 
     def run(self, chain_input):
         """Run all the services in sequence on the JSON input."""
-        # TODO: remove this or keep it as a testing thing driven by a test setting
-        # return {"payload": json.loads(open('data/example.lif').read())}
+        if BYPASS_CHAIN_PROCEESING:
+            return json.loads(open('data/example.lif').read())
+            #return {"payload": json.loads(open('data/example.lif').read())}
         json_obj = chain_input
         step = 0
         for service in self.services:
@@ -323,9 +332,10 @@ class ServiceChain(object):
             info("service=%s" % service.identifier)
             json_obj = service.execute(json_obj)
             info("discriminator=%s" % json_obj.get('discriminator'))
-            # tmp_file = "%02d-%s.lif" % (step, service.identifier.split(':')[-1])
-            # with open(tmp_file, 'w') as fh:
-            #     json.dump(json_obj, fh, indent=4)
+            if SAVE_STEPS:
+                tmp_file = "%02d-%s.lif" % (step, service.identifier.split(':')[-1])
+                with open(tmp_file, 'w') as fh:
+                    json.dump(json_obj, fh, indent=4)
         return json_obj
 
     def pp(self):

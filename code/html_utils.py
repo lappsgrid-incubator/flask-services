@@ -13,33 +13,48 @@ To wrap it in a paragraph and print the paragraph:
 >>> p = Tag('p')
 >>> p.add(text)
 >>> print(str(p).strip())
-<p>
-hello</p>
+
+This gives you something like
+
+<p>hello</p>
 
 You can add more text
 
 >>> p.add(Text(" and goodbye"))
->>> print(str(p).strip())
-<p>
-hello and goodbye</p>
+
+Now you have
+
+<p>hello and goodbye</p>
 
 Tags have daughters:
 
->>> div = Tag('div', dtrs=Tag('p', dtrs=[Text("hello"), Text(" world")]))
->>> print(div)
+>>> Tag('div', dtrs=Tag('p', dtrs=[Text("hello "), Text(" world")]))
+
+This would result in
+
 <div>
-<p>
-hello world</p></div>
+  <p>hello world</p>
+</div>
 
 Adding attributes:
 
->>> div = Tag('div',
-...           attrs={'class': 'example'},
-...           dtrs=Tag('p', dtrs=[Text("hello"), Text(" world")]))
->>> print(div)
-<div class='example'>
-<p>
-hello world</p></div>
+>>> Tag('div',
+...     attrs={'class': 'example'},
+...     dtrs=Tag('p', dtrs=[Text("hello world")]))
+
+<div class="example">
+  <p>hello world</p>
+</div>
+
+There are also some abbreviations:
+
+>>> div({'class': 'example'},
+...     Tag('p', dtrs=[Text("hello world")]))
+
+<div class="example">
+  <p>hello world</p>
+</div>
+
 
 """
 
@@ -131,8 +146,9 @@ class Href(Tag):
         self.dtrs = [Text(content)]
 
 
-        
-if __name__ == '__main__':
+def div(attrs, dtrs):
+    return Tag('div', attrs=attrs, dtrs=dtrs)
 
-    import doctest
-    doctest.testmod()
+
+def button(attrs, dtrs):
+    return Tag('button', attrs=attrs, dtrs=dtrs)

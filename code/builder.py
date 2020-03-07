@@ -29,7 +29,7 @@ from flask import Markup
 
 import visualization
 from utils import dump
-from html_utils import Tag, Text, Href
+from html_utils import Tag, Text, Href, div, button
 
 
 class HtmlBuilder(object):
@@ -49,23 +49,23 @@ class HtmlBuilder(object):
                     p.add(Tag('br'))
             block = Tag('blockquote')
             for service in services.categories[annotation_types]:
-                block.add(Text(service.identifier))
-                block.add(Tag('br'))
+                block.add_all([Text(service.identifier), Tag('br')])
             p.add(block)
             div.add(p)
         return Markup(str(div))
 
     def chain(self, chain):
-        dl = Tag('dl', attrs={'class': 'bordered'})
-        dl.add(Tag('dt', dtrs=Text(chain.identifier)))
+        """Builds an HTML <dl> tag with the name of the chain and a list of services as
+        the definition."""
+        dt = Tag('dt', dtrs=Text(chain.identifier))
         dd = Tag('dd')
+        dl = Tag('dl', attrs={'class': 'bordered'}, dtrs=[dt, dd])
         for service in chain.services:
-            dd.add(Text(service.identifier))
-            dd.add(Tag('br'))
-        dl.add(dd)
+            dd.add_all([Text(service.identifier), Tag('br')])
         return Markup(str(dl))
 
     def result(self, result):
+        """Builds a <div> tag which contains the results of the analysis."""
         text = result['payload']['text']['@value']
         json_str = dump(result['payload'])
         views = result['payload']['views']
@@ -73,73 +73,77 @@ class HtmlBuilder(object):
         contents = [tab_text('Text', text), tab_text('LIF', json_str)]
         Identifier.count = 0
         for view in views:
-            # TODO: use the id if there is one
-            view_identifier = Identifier.new()
+            view_identifier = get_view_identifier(view)
             annotation_types = view['metadata']['contains'].keys()
             annotation_types = [at.split('/')[-1] for at in annotation_types]
             buttons.append(tab_button(view_identifier))
             contents.append(tab_content(view_identifier, annotation_types, view, text))
         main_div = Tag('div')
-        tabs = Tag('div', attrs={'class': 'tab'})
-        tabs.add_all(buttons)
+        tabs = div({'class': 'tab'}, buttons)
         main_div.add(tabs)
         main_div.add_all(contents)
         return Markup(str(main_div))
 
 
+def get_view_identifier(view):
+    return view.get('id', Identifier.new())
+
+
 def tab_button(identifier):
+    """The button used for a top-level clickable tab."""
     fun = "display(event, '%s', 'tab_c1', 'tab_b1')" % identifier
-    attrs = {'class': "tab_b1", 'onclick': fun}
-    return Tag('button', attrs=attrs, dtrs=Text(identifier))
+    return button({'class': "tab_b1", 'onclick': fun}, Text(identifier))
 
 
 def tab_button_sub(identifier):
+    """The button used for a second-level clickable tab."""
     fun = "display(event, '%s', 'tab_c2', 'tab_b2')" % identifier
-    attrs = {'class': "tab_b2", 'onclick': fun}
-    return Tag('button', attrs=attrs, dtrs=Text(identifier.split(':')[-1]))
+    return button({'class': "tab_b2", 'onclick': fun}, Text(identifier.split(':')[-1]))
 
 
 def tab_text(identifier, text):
-    attrs = {'class': 'result pre'}
-    return Tag('div',
-               attrs=_attrs(identifier, 'tab_c1', "display: none;"),
-               dtrs=[Tag('br'), Tag('div', attrs=attrs, dtrs=Text(text))])
+    return div({'id': identifier, 'class': 'tab_c1', 'style': "display: none;"},
+               div({'class': 'result pre'}, Text(text)))
 
 
 def tab_content(identifier, annotation_types, view, text):
-    content = Tag('div', attrs=_attrs(identifier, 'tab_c1', "display: none;"))
-    sub_tabs = Tag('div', attrs={'class': 'tab'})
+    content = div({'id': identifier, 'class': 'tab_c1', 'style': "display: none;"}, [])
+    sub_tabs = div({'class': 'tab2'}, [])
+    # TODO: instead of this could add sub_tabs and then just append to contents
     sub_contents = []
+    lif_id = 'LIF-%s' % identifier
+    sub_tabs.add(tab_button_sub(lif_id))
+    sub_contents.append(
+        div({'id': lif_id, 'class': 'tab_c2', 'style': "display: none;"},
+            div({'class': 'result pre'}, Text(dump(view)))))
     for atype in annotation_types:
-        identifier_sub = identifier + ':' + atype
-        sub_tabs.add(tab_button_sub(identifier_sub))
+        id_sub = identifier + ':' + atype
+        sub_tabs.add(tab_button_sub(id_sub))
         sub_contents.append(
-            Tag('div',
-                attrs=_attrs(identifier_sub, 'tab_c2', "display: none;"),
-                dtrs=[Tag('div',
-                          attrs={'class': 'result pre'},
-                          dtrs=visualize(identifier_sub, view, text))]))
-    content.add(Tag('br'))
+            div({'id': id_sub, 'class': 'tab_c2', 'style': "display: none;"},
+                div({'class': 'result pre'},
+                    visualize(id_sub, view, text))))
     content.add(sub_tabs)
-    content.add(Tag('br'))
     for sub_content in sub_contents:
         content.add(sub_content)
     return content
 
 
-def _attrs(_id, _class, style):
-    """Utility method to create an attribute dictionary when you have identifier,
-    class and style."""
-    return {'id': _id, 'class': _class, 'style': style}
-
-
 def visualize(identifier, view, text):
     """Given the identifier, determine what kind of visualization to use and return
-    the visualization, typically as a text."""
+    that visualization, typically as a text."""
+    # TODO: does this always return a Text?
+    # TODO: if so we can push the choice to the visualization module
     if identifier.endswith('Token'):
         return Text(visualization.tab_separated_tokens(view))
     elif identifier.endswith('Token#pos'):
         return Text(visualization.tab_separated_tokens_with_pos(view))
+    elif identifier.endswith('Sentence'):
+        return Text(visualization.one_sentence_per_line(view, text))
+    elif identifier.endswith('NamedEntity'):
+        return Text(visualization.entities(view, text))
+    elif identifier.endswith('PhraseStructure'):
+        return Text(visualization.phrase_structure(view, text))
     else:
         return Text(visualization.table_of_markables(view, text))
 

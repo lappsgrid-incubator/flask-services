@@ -4,7 +4,7 @@
         "@context": "http://vocab.lappsgrid.org/context-1.0.0.jsonld",
         "metadata": {},
         "text": {
-            "@value": "Siouxsie Sioux sleeps, but Johnny Rotten is awake. Thelma and Louisa really wanted to avoid Texas so they hit up the Grand Canyon.\n",
+            "@value": "Siouxsie Sioux sleeps, but Johnny Rotten is awake. Thelma and Louise really wanted to avoid Texas so they went to the Grand Canyon.\n",
             "@language": "en"
         },
         "views": [
@@ -132,7 +132,7 @@
                         "end": 68,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
-                            "word": "Louisa"
+                            "word": "Louise"
                         }
                     },
                     {
@@ -201,25 +201,25 @@
                     {
                         "id": "tk_1_10",
                         "start": 106,
-                        "end": 109,
+                        "end": 110,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
-                            "word": "hit"
+                            "word": "went"
                         }
                     },
                     {
                         "id": "tk_1_11",
-                        "start": 110,
-                        "end": 112,
+                        "start": 111,
+                        "end": 113,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
-                            "word": "up"
+                            "word": "to"
                         }
                     },
                     {
                         "id": "tk_1_12",
-                        "start": 113,
-                        "end": 116,
+                        "start": 114,
+                        "end": 117,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "word": "the"
@@ -227,8 +227,8 @@
                     },
                     {
                         "id": "tk_1_13",
-                        "start": 117,
-                        "end": 122,
+                        "start": 118,
+                        "end": 123,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "word": "Grand"
@@ -236,8 +236,8 @@
                     },
                     {
                         "id": "tk_1_14",
-                        "start": 123,
-                        "end": 129,
+                        "start": 124,
+                        "end": 130,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "word": "Canyon"
@@ -245,8 +245,8 @@
                     },
                     {
                         "id": "tk_1_15",
-                        "start": 129,
-                        "end": 130,
+                        "start": 130,
+                        "end": 131,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "word": "."
@@ -276,10 +276,10 @@
                     {
                         "id": "s_1",
                         "start": 51,
-                        "end": 130,
+                        "end": 131,
                         "@type": "http://vocab.lappsgrid.org/Sentence",
                         "features": {
-                            "sentence": "Thelma and Louisa really wanted to avoid Texas so they hit up the Grand Canyon."
+                            "sentence": "Thelma and Louise really wanted to avoid Texas so they went to the Grand Canyon."
                         }
                     }
                 ]
@@ -421,7 +421,7 @@
                         "@type": "http://vocab.lappsgrid.org/Token#pos",
                         "features": {
                             "pos": "NNP",
-                            "word": "Louisa"
+                            "word": "Louise"
                         }
                     },
                     {
@@ -497,27 +497,27 @@
                     {
                         "id": "tk_20_10",
                         "start": 106,
-                        "end": 109,
+                        "end": 110,
                         "@type": "http://vocab.lappsgrid.org/Token#pos",
                         "features": {
                             "pos": "VBD",
-                            "word": "hit"
+                            "word": "went"
                         }
                     },
                     {
                         "id": "tk_21_11",
-                        "start": 110,
-                        "end": 112,
+                        "start": 111,
+                        "end": 113,
                         "@type": "http://vocab.lappsgrid.org/Token#pos",
                         "features": {
-                            "pos": "RP",
-                            "word": "up"
+                            "pos": "TO",
+                            "word": "to"
                         }
                     },
                     {
                         "id": "tk_22_12",
-                        "start": 113,
-                        "end": 116,
+                        "start": 114,
+                        "end": 117,
                         "@type": "http://vocab.lappsgrid.org/Token#pos",
                         "features": {
                             "pos": "DT",
@@ -526,8 +526,8 @@
                     },
                     {
                         "id": "tk_23_13",
-                        "start": 117,
-                        "end": 122,
+                        "start": 118,
+                        "end": 123,
                         "@type": "http://vocab.lappsgrid.org/Token#pos",
                         "features": {
                             "pos": "NNP",
@@ -536,8 +536,8 @@
                     },
                     {
                         "id": "tk_24_14",
-                        "start": 123,
-                        "end": 129,
+                        "start": 124,
+                        "end": 130,
                         "@type": "http://vocab.lappsgrid.org/Token#pos",
                         "features": {
                             "pos": "NNP",
@@ -546,8 +546,8 @@
                     },
                     {
                         "id": "tk_25_15",
-                        "start": 129,
-                        "end": 130,
+                        "start": 130,
+                        "end": 131,
                         "@type": "http://vocab.lappsgrid.org/Token#pos",
                         "features": {
                             "pos": ".",
@@ -617,7 +617,7 @@
                         "end": 68,
                         "@type": "http://vocab.lappsgrid.org/Person",
                         "features": {
-                            "word": "Louisa"
+                            "word": "Louise"
                         }
                     },
                     {
@@ -1025,7 +1025,7 @@
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "pos": "NNP",
-                            "word": "Louisa"
+                            "word": "Louise"
                         }
                     },
                     {
@@ -1101,27 +1101,27 @@
                     {
                         "id": "tk_1_10",
                         "start": 106,
-                        "end": 109,
+                        "end": 110,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "pos": "VBD",
-                            "word": "hit"
+                            "word": "went"
                         }
                     },
                     {
                         "id": "tk_1_11",
-                        "start": 110,
-                        "end": 112,
+                        "start": 111,
+                        "end": 113,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
-                            "pos": "RP",
-                            "word": "up"
+                            "pos": "TO",
+                            "word": "to"
                         }
                     },
                     {
                         "id": "tk_1_12",
-                        "start": 113,
-                        "end": 116,
+                        "start": 114,
+                        "end": 117,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "pos": "DT",
@@ -1130,8 +1130,8 @@
                     },
                     {
                         "id": "tk_1_13",
-                        "start": 117,
-                        "end": 122,
+                        "start": 118,
+                        "end": 123,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "pos": "NNP",
@@ -1140,8 +1140,8 @@
                     },
                     {
                         "id": "tk_1_14",
-                        "start": 123,
-                        "end": 129,
+                        "start": 124,
+                        "end": 130,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "pos": "NNP",
@@ -1150,8 +1150,8 @@
                     },
                     {
                         "id": "tk_1_15",
-                        "start": 129,
-                        "end": 130,
+                        "start": 130,
+                        "end": 131,
                         "@type": "http://vocab.lappsgrid.org/Token",
                         "features": {
                             "pos": ".",
@@ -1161,11 +1161,11 @@
                     {
                         "id": "ps_1",
                         "start": 51,
-                        "end": 130,
+                        "end": 131,
                         "@type": "http://vocab.lappsgrid.org/PhraseStructure",
                         "features": {
-                            "sentence": "Thelma and Louisa really wanted to avoid Texas so they hit up the Grand Canyon.",
-                            "penntree": "(ROOT [118.214]\n  (S [118.062]\n    (NP [29.821] (NNP Thelma)\n      (CC and)\n      (NNP Louisa))\n    (ADVP [5.013] (RB really))\n    (VP [79.586] (VBD wanted)\n      (S [69.713]\n        (VP [69.449] (TO to)\n          (VP [69.420] (VB avoid)\n            (NP [9.983] (NNP Texas))\n            (SBAR [48.926] (IN so)\n              (S [43.646]\n                (NP [3.443] (PRP they))\n                (VP [39.874] (VBD hit)\n                  (PRT [1.125] (RP up))\n                  (NP [24.225] (DT the) (NNP Grand) (NNP Canyon)))))))))\n    (. .)))\n",
+                            "sentence": "Thelma and Louise really wanted to avoid Texas so they went to the Grand Canyon.",
+                            "penntree": "(ROOT [113.191]\n  (S [113.039]\n    (NP [29.133] (NNP Thelma)\n      (CC and)\n      (NNP Louise))\n    (ADVP [5.013] (RB really))\n    (VP [75.251] (VBD wanted)\n      (S [65.379]\n        (VP [65.115] (TO to)\n          (VP [65.085] (VB avoid)\n            (NP [9.983] (NNP Texas))\n            (SBAR [44.592] (IN so)\n              (S [39.312]\n                (NP [3.443] (PRP they))\n                (VP [35.539] (VBD went)\n                  (PP [25.934] (TO to)\n                    (NP [23.463] (DT the) (NNP Grand) (NNP Canyon))))))))))\n    (. .)))\n",
                             "constituents": [
                                 "c_1_0",
                                 "c_1_1",
@@ -1461,8 +1461,7 @@
                         "features": {
                             "children": [
                                 "c_1_24",
-                                "c_1_25",
-                                "c_1_26"
+                                "c_1_25"
                             ],
                             "parent": "c_1_20"
                         }
@@ -1492,9 +1491,10 @@
                     {
                         "id": "c_1_25",
                         "@type": "http://vocab.lappsgrid.org/Constituent",
-                        "label": "PRT",
+                        "label": "PP",
                         "features": {
                             "children": [
+                                "c_1_26",
                                 "c_1_27"
                             ],
                             "parent": "c_1_22"
@@ -1503,23 +1503,23 @@
                     {
                         "id": "c_1_26",
                         "@type": "http://vocab.lappsgrid.org/Constituent",
+                        "label": "TO",
+                        "features": {
+                            "children": [
+                                "tk_1_11"
+                            ],
+                            "parent": "c_1_25"
+                        }
+                    },
+                    {
+                        "id": "c_1_27",
+                        "@type": "http://vocab.lappsgrid.org/Constituent",
                         "label": "NP",
                         "features": {
                             "children": [
                                 "c_1_28",
                                 "c_1_29",
                                 "c_1_30"
-                            ],
-                            "parent": "c_1_22"
-                        }
-                    },
-                    {
-                        "id": "c_1_27",
-                        "@type": "http://vocab.lappsgrid.org/Constituent",
-                        "label": "RP",
-                        "features": {
-                            "children": [
-                                "tk_1_11"
                             ],
                             "parent": "c_1_25"
                         }
@@ -1532,7 +1532,7 @@
                             "children": [
                                 "tk_1_12"
                             ],
-                            "parent": "c_1_26"
+                            "parent": "c_1_27"
                         }
                     },
                     {
@@ -1543,7 +1543,7 @@
                             "children": [
                                 "tk_1_13"
                             ],
-                            "parent": "c_1_26"
+                            "parent": "c_1_27"
                         }
                     },
                     {
@@ -1554,7 +1554,7 @@
                             "children": [
                                 "tk_1_14"
                             ],
-                            "parent": "c_1_26"
+                            "parent": "c_1_27"
                         }
                     }
                 ]
