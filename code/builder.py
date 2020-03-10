@@ -1,7 +1,7 @@
 """builder.py
 
-Utility to help build web pages. The HtmlBuilder uses classes from html_utils to
-create the HTML for the application.
+Utility to help build web pages. The HtmlBuilder class uses classes from
+html_utils to create the HTML for the application.
 
 categories(self, services)
 
@@ -23,11 +23,12 @@ result(self, result)
 
 """
 
+import os
 import io
 import json
 from flask import Markup
 
-import visualization
+from visualization import visualize
 from utils import dump
 from html_utils import Tag, Text, Href, div, button
 
@@ -69,24 +70,21 @@ class HtmlBuilder(object):
         text = result['payload']['text']['@value']
         json_str = dump(result['payload'])
         views = result['payload']['views']
-        buttons = [tab_button('Text'), tab_button('LIF')]
-        contents = [tab_text('Text', text), tab_text('LIF', json_str)]
-        Identifier.count = 0
+        buttons = [tab_button('Text'),
+                   tab_button('LIF')]
+        contents = [tab_text('Text', text),
+                    tab_text('LIF', json_str)]
+        ViewIdentifier.count = 0
         for view in views:
-            view_identifier = get_view_identifier(view)
+            view_identifier = view.get('id', ViewIdentifier.new())
             annotation_types = view['metadata']['contains'].keys()
-            annotation_types = [at.split('/')[-1] for at in annotation_types]
+            annotation_types = [os.path.basename(at) for at in annotation_types]
             buttons.append(tab_button(view_identifier))
             contents.append(tab_content(view_identifier, annotation_types, view, text))
         main_div = Tag('div')
-        tabs = div({'class': 'tab'}, buttons)
-        main_div.add(tabs)
+        main_div.add(div({'class': 'tab'}, buttons))
         main_div.add_all(contents)
         return Markup(str(main_div))
-
-
-def get_view_identifier(view):
-    return view.get('id', Identifier.new())
 
 
 def tab_button(identifier):
@@ -102,56 +100,38 @@ def tab_button_sub(identifier):
 
 
 def tab_text(identifier, text):
-    return div({'id': identifier, 'class': 'tab_c1', 'style': "display: none;"},
-               div({'class': 'result pre'}, Text(text)))
+    return tab_text_aux(identifier, 'tab_c1', text)
+
+
+def tab_text_sub(identifier, content):
+    return tab_text_aux(identifier, 'tab_c2', content)
+
+
+def tab_text_aux(identifier, _class, content):
+    return div({'id': identifier, 'class': _class, 'style': "display: none;"},
+               div({'class': 'result pre'}, Text(content)))
 
 
 def tab_content(identifier, annotation_types, view, text):
+    meta_id = "%s:Metadata" % identifier
+    anno_id = "%s:Annotations" % identifier
     content = div({'id': identifier, 'class': 'tab_c1', 'style': "display: none;"}, [])
-    sub_tabs = div({'class': 'tab2'}, [])
-    # TODO: instead of this could add sub_tabs and then just append to contents
-    sub_contents = []
-    lif_id = 'LIF-%s' % identifier
-    sub_tabs.add(tab_button_sub(lif_id))
-    sub_contents.append(
-        div({'id': lif_id, 'class': 'tab_c2', 'style': "display: none;"},
-            div({'class': 'result pre'}, Text(dump(view)))))
-    for atype in annotation_types:
-        id_sub = identifier + ':' + atype
+    sub_tabs = content.add(div({'class': 'tab2'},
+                               [tab_button_sub(meta_id), tab_button_sub(anno_id)]))
+    content.add_all([
+        tab_text_sub(meta_id, dump(view.get('metadata'))),
+        tab_text_sub(anno_id, dump(view.get('annotations')))])
+    for annotation_type in annotation_types:
+        id_sub = identifier + ':' + annotation_type
         sub_tabs.add(tab_button_sub(id_sub))
-        sub_contents.append(
-            div({'id': id_sub, 'class': 'tab_c2', 'style': "display: none;"},
-                div({'class': 'result pre'},
-                    visualize(id_sub, view, text))))
-    content.add(sub_tabs)
-    for sub_content in sub_contents:
-        content.add(sub_content)
+        content.add(tab_text_sub(id_sub, visualize(id_sub, view, text)))
     return content
 
-
-def visualize(identifier, view, text):
-    """Given the identifier, determine what kind of visualization to use and return
-    that visualization, typically as a text."""
-    # TODO: does this always return a Text?
-    # TODO: if so we can push the choice to the visualization module
-    if identifier.endswith('Token'):
-        return Text(visualization.tab_separated_tokens(view))
-    elif identifier.endswith('Token#pos'):
-        return Text(visualization.tab_separated_tokens_with_pos(view))
-    elif identifier.endswith('Sentence'):
-        return Text(visualization.one_sentence_per_line(view, text))
-    elif identifier.endswith('NamedEntity'):
-        return Text(visualization.entities(view, text))
-    elif identifier.endswith('PhraseStructure'):
-        return Text(visualization.phrase_structure(view, text))
-    else:
-        return Text(visualization.table_of_markables(view, text))
-
-
         
-class Identifier(object):
+class ViewIdentifier(object):
+    """Class that generates new view identifiers if needed."""
     count = 0
     @classmethod
     def new(cls):
-        Identifier.count += 1
-        return "View-%d" % Identifier.count
+        ViewIdentifier.count += 1
+        return "View-%d" % ViewIdentifier.count

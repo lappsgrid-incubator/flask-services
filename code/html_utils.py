@@ -98,7 +98,7 @@ class Tag(HtmlObject):
                 self.dtrs = [dtrs]
 
     def is_block(self):
-        block_tags = {'div', 'p', 'blockquote', 'ol', 'ul'}
+        block_tags = {'div', 'table', 'tr', 'td', 'p', 'blockquote', 'ol', 'ul'}
         return self.tag.lower() in block_tags
 
     def add(self, dtr):
